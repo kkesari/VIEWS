@@ -17,7 +17,7 @@ Built Utilizing:
 Original Contributors: 
 Kiran Kesari -
 Eric Pinder - 
-Zachary Thomas -
+Zach Thomas -
 Brigid Woolery -
 
 VIEW in Development:
