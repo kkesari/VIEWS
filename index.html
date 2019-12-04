@@ -321,7 +321,7 @@
             var desc = document.getElementById("description");
 
             // URL required to get the weather of the location clicked by an user om Google Maps
-            var queryURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + weatherLat + "&lon=" + weatherLong + "&cnt=5" + "&apikey=" + weatherAPI;
+            var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + weatherLat + "&lon=" + weatherLong + "&cnt=5" + "&apikey=" + weatherAPI;
 
             // Run AJAX to get required data from the weather API url
             $.ajax({
