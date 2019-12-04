@@ -1,0 +1,125 @@
+body{
+    font-family: "Book Antiqua";
+    background-image: url('https://media.giphy.com/media/VdG2QjhkRQziE/giphy.gif');
+}
+.jumbotron{
+    /* background-image: url('https://media.giphy.com/media/yZX06xrr41RNS/giphy.gif'); */
+    /* background-size: 40% auto; */ 
+    z-index: auto;
+    font-family: "Book Antiqua";
+    font-size: large;
+    color:white;
+    background:linear-gradient(#baa898,#f66);
+}
+
+
+h1 {
+    font-family: "Book Antiqua";
+    /* font-size:xx-large; */
+    text-align: center;
+}
+
+p {
+    font-family: "Book Antiqua";
+    text-align: center;
+}
+
+.lead{
+ font-weight: bold;
+}
+
+.info {
+    padding: 10px;
+}
+
+#location {
+    font-weight: bold;
+    color:blue;
+}
+
+#latlong {
+    font-weight: bold;
+    font-size: smaller;
+    color:white;
+}
+#card-1{
+    background:linear-gradient(#baa898,#f66);
+}
+
+#card-2{
+     background:linear-gradient(#baa898,rgb(230, 240, 178));
+}
+
+#card-3{
+    background:linear-gradient(#baa898,rgb(101, 96, 141));
+}
+
+#Events {
+    font-weight: bold;
+    color:rgb(40, 26, 238);
+}
+
+thead {
+    font-family: "Book Antiqua";
+    color:rgb(40, 26, 238);
+}
+tbody{
+ font-family: "Book Antiqua";
+ font-size: medium;
+}
+
+#Weather {
+    font-weight: bold;
+    color:blue;
+}
+
+.scrollable{
+    overflow-y: auto;
+    max-height: 240px;
+  }
+
+  #icon-desc {
+    font-size: 3rem;
+    /* padding-top: 2rem; */
+}
+
+#desc {
+    font-size: 2rem;
+    color: wheat;
+}
+
+#temperature {
+    font-family: "Book Antiqua";
+    font-size: 4rem;
+    color: wheat;
+}
+
+#icon-thermometer {
+    font-size: 3rem;
+}
+
+#body1 {
+    background-color:linear-gradient(#baa898,rgb(195, 194, 206));
+}
+
+.humidity,
+.wind,
+.wind-degree {
+    font-family: "Book Antiqua";
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    font-size: 1rem;
+    font-weight: bold;
+    color: wheat;
+}
+
+.humidity-data,
+.wind-data,
+.wind-degree-data {
+    font-family: "Book Antiqua";
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: wheat;
+}  
