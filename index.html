@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Viewable Interactive Events and Weather Service</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- local style sheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Moment js -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap CSS CDN  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+
+    <!-- Font Awesome CSS Icons (For cool glyphicons) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!--Weather Font Link-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="jumbo">
+            <h1>V.I.E.W.S</h1>
+            <p class="lead"><i class="fa fa-sun-o"></i>/<i class="fa fa-music"></i> Viewable Interactive Events and
+                Weather Service</p>
+            <p><span id="datetext">Date: </span></p>
+        </div>
+    </div>
+    <div class="info">
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="googleWorldMap" style="width:100%;height:600px;"></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card" id="card-1">
+                    <div class="card-header" id="myLocation">
+                        <p><span id="location">Location</span> <span id="latlong"> (Lat,Long) </span></p>
+                    </div>
+                </div>
+                <br>
+                <div class="card" id="card-2">
+                    <div class="card-header">
+                        <span id="Events">Events (Events within 25 mile radius from the location chosen) </span>
+                    </div>
+                    <div class="card-body">
+                        <!----------------------------------- Events Body Section----------------------------------------------------->
+                        <div class="scrollable">
+                            <!-- <p class="card2-text">Events within 25 mile radius from the location chosen.</p> -->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Event Name</th>
+                                        <th scope="col">Event URL</th>
+                                        <th scope="col">Venue Name </th>
+                                        <th scope="col">Venue URL</th>
+                                        <th scope="col">Venue Address</th>
+                                        <th scope="col">Event Starts at</th>
+                                    </tr>
+                                </thead>
+                                <!-- Sample first row -->
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card" id="card-3">
+                    <div class="card-header">
+                        <span id="Weather"><i class="fa fa-sun-o"></i><strong> Weather at the Location </strong></span>
+                    </div>
+                    <div class="card3-body">
+                        <!-- <p class="card3-text">Weather at the location chosen.</p> -->
+                        <div class="scrollable">
+                            <div class="col-8 weather mx-auto">
+                                <div class="weather-head">
+                                    <h1 id="location"></h1>
+                                    <div class="row">
+                                        <div id="description" class="descrip col-6 text-center">
+                                            <i id="icon-desc" class="wi wi-owm"></i>
+                                            <p id="desc" class="text1 text-center"></p>
+                                        </div>
+                                        <div id="temperature" class="temper col-6 text-center">
+                                            <i id="icon-thermometer" class="wi wi-thermometer"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!------------------------------------ Weather Body Section------------------------------------------------------------>
+                                <div class="weather-body">
+                                    <div class="row" id="body1">
+                                        <div class="humidity col-4 text-center">
+                                            <i class="wi wi-raindrops"></i>
+                                            <span>Humidity</span>
+                                        </div>
+                                        <div class="wind col-4 text-center">
+                                            <i class="wi wi-strong-wind"></i>
+                                            <span>Wind</span>
+                                        </div>
+                                        <div class="wind-degree col-4 text-center">
+                                            <i class="wi wi-direction-up-right"></i>
+                                            <span>Wind Degree</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="body2">
+                                        <div class="humidity-data col-4 text-center" id="humiditydata">
+
+                                        </div>
+                                        <div class="wind-data col-4 text-center" id="windspeeddata">
+
+                                        </div>
+                                        <div class="wind-degree-data col-4 text-center" id="winddegreedata">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // variables declaration -> these variables are used within the google maps function calls
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // label for each user click
+        var labelIndex = 0;
+        var getLat; var getLong;
+        var getPos = { lat: getLat, lng: getLong };
+        var getLocation = "";
+        var marker;
+
+        //date display on the banner
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("MM/DD/YYYY hh:mm:ss A"));
+        var getDate = moment(currentTime).format("MM/DD/YYYY hh:mm:ss A");
+        $("#datetext").append(getDate);
+
+        // This is the function to display the map, based on one sample location, we can zoom in and out
+        // test 
+        function myMap() {
+            // attributes of the map with latitude and longitude 
+            var mapProp = {
+                center: new google.maps.LatLng(40.7209, -74.0007),
+                zoom: 8,
+            };
+
+            // New google map
+            var map = new google.maps.Map(document.getElementById("googleWorldMap"), mapProp);
+
+            // This event listener calls addMarker() when the map is clicked. 
+            // Main method for calling all the other APIs within this click.
+            google.maps.event.addListener(map, 'click', function (event) {
+
+                // add new marker based on the user click event
+                addMarker(event.latLng, map);
+                getPos = event.latLng;
+                console.log("inside the click event Lat  = " + event.latLng.lat());
+                console.log("inside the click event Long = " + event.latLng.lng());
+                console.log("inside the click event = " + event.latLng + "getPos = " + getPos);
+
+                // call the EventAPI to display events based on the user click on google maps
+                getEventsList(getPos);
+
+                // call the WeatherAPI to display location weather based on the user click on google maps   
+                displayWeatherInfo(getPos);
+            });
+
+            // Following Command Will Load the Google Map
+            google.maps.event.addDomListener(window, "load", myMap);
+        }
+
+        // add markers
+        // Adds a marker to the map.
+        function addMarker(location, map) {
+
+            // Add the marker at the clicked location, and add the next-available label
+            // from the array of alphabetical characters.
+
+            // if marker exists and has a .setMap method, hide it
+
+            if (marker && marker.setMap) {
+                console.log("inside the addMarker - clear the old marker and add new one");
+                marker.setMap(null);
+            }
+            marker = new google.maps.Marker({
+                position: location,
+                label: labels[labelIndex++ % labels.length],
+                map: map
+            });
+            // labels="";
+            //   console.log("marker location = "+marker.position);
+        }
+
+        // Invoke Events API in getEventsList function, passing clickPos which is the position captured from user click event.
+        // This function is called from myMap() function -> google maps addListener click event
+        function getEventsList(clickPos) {
+            // This is our API key
+            var APIKey = "qwdTg4DDswQ49x9C";
+            var latitude = "40.7209"; //temporary latitude to point a location with zoom 8
+            var longitude = "74.0007";//temporary longtitude to point a location with zoom 8
+
+
+            var latlong = latitude + ",-" + longitude;
+            // remove the '(',  ')' and space from the clickPos before passing to the API where
+            latlong = clickPos;
+            latlong = latlong.toString().replace("(", "");
+            latlong = latlong.toString().replace(")", "");
+            latlong = latlong.toString().replace(" ", "");
+
+            var radius = 25;
+            var convertedDate;
+
+            // Here we are building the URL we need to query the database
+            var queryURL = "https://api.eventful.com/json/events/search?" +
+                "&app_key=" + APIKey + "&where=" + latlong + "&within=" + radius
+
+            // Here we run our AJAX call to the OpenWeatherMap API
+            $.ajax({
+                url: queryURL,
+                method: "GET",
+                crossDomain: true,
+                dataType: 'jsonp'
+            })
+                // We store all of the retrieved data inside of an object called "response"
+                .then(function (response) {
+                    // Empty the DIV before populating the events list; clear out previous events list
+                    $("tbody").empty();
+                    // Log the queryURL
+                    console.log("queryURL = " + queryURL);
+
+                    // Log the resulting object
+                    console.log(response);
+
+                    console.log("latlong = " + latlong);
+                    console.log("clickPos = " + clickPos);
+                    $("#latlong").empty();
+                    $("#latlong").append("(" + latlong + ")");
+                    console.log("clickPos down = " + latlong);
+
+                    // if the response is null, print no events listed in the location.
+                    if (response.events == null) {
+                        console.log(' no events listed at this location ')
+                        $("tbody").append("No events scheduled at this time in this location");
+                        getLocation = "Location: ";
+                        $("#location").empty();
+                        $("#location").append(getLocation);
+                    }
+                    else {
+                        console.log(response.events.event.length);
+                        for (var i = 0; i < response.events.event.length; i++) {
+                            // append values 
+                            // Create a new table row element
+                            var tRow = $("<tr>");
+                            var eventNameTd = $("<td>").html(response.events.event[i].title);
+                            // var eventURLTd = $("<td>").html(response.events.event[i].url);  
+                            //var eventURLTd= $("<td>").html ($("<a>", {href: response.events.event[i].url }));          
+                            var eventURLTd = $('<a>', {
+                                text: 'Go!',
+                                title: 'Follow the Event Details in this URL',
+                                href: response.events.event[i].url,
+                                target: '_blank'
+                            });
+                            var venueNameTd = $("<td>").html(response.events.event[i].venue_name);
+                            // var venueURLTd = $("<td>").html(response.events.event[i].venue_url);
+                            var venueURLTd = $('<a>', {
+                                text: 'Location',
+                                title: 'Follow the URL to get the Location details',
+                                href: response.events.event[i].venue_url,
+                                target: '_blank'
+                            });
+                            var venueAddrTd = $("<td>").html(response.events.event[i].venue_address + ", " + response.events.event[i].region_name);
+                            // using Moment.js convert the date into readable format - Aug 28th, 2020 09:00:00 AM
+                            convertedDate = moment(response.events.event[i].start_time, "YYYY-MM-DD hh:mm:ss");
+                            var eventStartTimeTd = $("<td>").html(convertedDate.format("MMM Do, YYYY hh:mm:ss A"));
+
+
+                            // Append the newly created table data to the table row
+                            tRow.append(eventNameTd, eventURLTd, venueNameTd, venueURLTd, venueAddrTd, eventStartTimeTd);
+                            // Append the table row to the table body
+                            $("tbody").append(tRow);
+                            // get the location / region -- get only the location value from the last iteration
+                            // in the for loop as it may repeat the same location every time.
+                            getLocation = "Location: " + response.events.event[i].olson_path + "@" + response.events.event[i].region_name;
+
+                        }
+                        $("#location").empty();
+                        $("#location").append(getLocation);
+
+                    }
+                });
+        }
+
+
+        // Function for displaying Weather Information
+        function displayWeatherInfo(clickPos) {
+            // Create Variables for using in the weather search API
+            var weatherAPI = "bef5d244a1de1418f359b69050529895";
+            var weatherLong = -75.16;
+            var weatherLat = 40;
+            var latlong = clickPos;
+            // split by , so that it stores latitude and longitude in 2 separate array elements
+            latlong = latlong.toString().split(",");
+
+            console.log("inside the weather API event clickpos  = " + clickPos + "latlong = " + latlong[0] + " " + latlong[1]);
+            // remove the characters (, and )
+            weatherLong = latlong[1].replace(")", "").replace(" ", "");
+            weatherLat = latlong[0].replace("(", "").replace(" ", "");
+            console.log("weatherLong  = " + weatherLong + "weatherLat = " + weatherLat);
+
+            var location = document.getElementById("location");
+            var desc = document.getElementById("description");
+
+            // URL required to get the weather of the location clicked by an user om Google Maps
+            var queryURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + weatherLat + "&lon=" + weatherLong + "&cnt=5" + "&apikey=" + weatherAPI;
+
+            // Run AJAX to get required data from the weather API url
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+
+                var city = response.city.name;
+                var country = response.city.country;
+                location.innerHTML = city + ',' + country;
+
+                var id = response.list[0].weather[0].id;
+                var descr = response.list[0].weather[0].description;
+                desc.innerHTML = '<i id="icon-desc" class="wi wi-owm-' + id + '"></i><p id="desc">' + descr + '</p>';
+
+                var tempF = Math.round(response.list[0].main.temp - 239.2);
+                var temperature = tempF;
+                var temp = document.getElementById("temperature");
+                temp.innerHTML = temperature + "&degF" + '<i id="icon-thermometer" class="wi wi-thermometer"></i>';
+
+                var humidity = response.list[0].main.humidity;
+                var humidityElem = document.getElementById("humiditydata");
+                humidityElem.innerHTML = humidity + "%"
+
+                var windSpeed = response.list[0].wind.speed;
+                var windSpeedElem = document.getElementById("windspeeddata");
+                windSpeedElem.innerHTML = windSpeed + "m/h"
+
+                var windDegree = response.list[0].wind.deg;
+                var windDegreeElem = document.getElementById("winddegreedata");
+                windDegreeElem.innerHTML = windDegree + "&deg;"
+            })
+        }        
+    </script>
+
+    <!-- <script type="text/javascript" data-latVar=getLat data-longVar=getLong src="eventApi.js"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWJPiurRspHIQ9W-KMBwbmb0_ueDNaveM&callback=myMap">
+    </script>
+
+
+</body>
+
+</html>
