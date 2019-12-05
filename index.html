@@ -258,8 +258,8 @@
                     if (response.events == null) {
                         console.log(' no events listed at this location ')
                         $("tbody").append("No events scheduled at this time in this location");
-                        getLocation = "Location: ";
-                        $("#location").empty();
+                        getLocation = " <br> Location: ";
+                        // $("#location").empty();
                         $("#location").append(getLocation);
                     }
                     else {
