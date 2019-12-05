@@ -1,24 +1,82 @@
+/* @media screen and (min-width: 500px) {
+    body {
+       width:420px;
+    }
+ }
+ 
+ @media screen and (min-width: 800px) {
+    body {
+       width:768px;
+    }
+ }
+
+ @media only screen and (min-width: 1024px) {
+    body {
+       width:1000px;
+    }
+ }
+
+ @media only screen and (min-width: 1133px) {
+    body {
+       width:1120px;
+    }
+ }
+
+ @media only screen and (min-width: 1224px) {
+    body {
+       width:1200px;
+    }
+ }
+
+ @media only screen and (min-width: 1824px) {
+    body {
+       width:1800px;
+    }
+ } */
+
 body{
     font-family: "Book Antiqua";
-    background-image: url('https://media.giphy.com/media/VdG2QjhkRQziE/giphy.gif');
+    background-image: url('../images/photo-1501.jfif');
+    background-size: 100% 100%;
 }
 .jumbotron{
-    /* background-image: url('https://media.giphy.com/media/yZX06xrr41RNS/giphy.gif'); */
+    background-image: url('../images/photo-1459.jfif');
+    background-size: 100% 100%;
     /* background-size: 40% auto; */ 
     z-index: auto;
     font-family: "Book Antiqua";
-    font-size: large;
-    color:white;
-    background:linear-gradient(#baa898,#f66);
+    font-size: xx-large;
+    /* background-color: rgba(white,0.3); */
+    color: white;
+    /* background:linear-gradient(#baa898,#f66); */
 }
 
+.jumbotext {
+    margin-left: 14%;
+    margin-top:0.5rem;
+    text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue;
+    /* background-color: rgba(63, 62, 63, 0.3); */
+    text-align: center;
+    /* border-radius: 20px; */
+    color: white;
+    /* display: inline-flex; /* keep the background color wrapped tight */   
+}
 
 h1 {
     font-family: "Book Antiqua";
     /* font-size:xx-large; */
     text-align: center;
+   /* display: inline-flex; /* keep the background color wrapped tight */    
+  /*  background-color:(blue,0.3);*/
+
 }
 
+#datetext{
+    margin-left: 3%;
+    display: inline-flex; /* keep the background color wrapped tight */
+    background-color: blue;
+    color: white;
+}
 p {
     font-family: "Book Antiqua";
     text-align: center;
@@ -43,7 +101,7 @@ p {
     color:white;
 }
 #card-1{
-    background:linear-gradient(#baa898,#f66);
+    background:linear-gradient(#baa898,rgb(118, 115, 119));
 }
 
 #card-2{
@@ -55,6 +113,7 @@ p {
 }
 
 #Events {
+    font-family: "Book Antiqua";
     font-weight: bold;
     color:rgb(40, 26, 238);
 }
@@ -69,6 +128,7 @@ tbody{
 }
 
 #Weather {
+    font-family: "Book Antiqua";
     font-weight: bold;
     color:blue;
 }

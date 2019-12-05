@@ -28,11 +28,14 @@
 <body>
     <div class="jumbotron jumbotron-fluid">
         <div class="jumbo">
+            <div class="jumbotext col-8 text-center"> 
+
             <h1>V.I.E.W.S</h1>
             <p class="lead"><i class="fa fa-sun-o"></i>/<i class="fa fa-music"></i> Viewable Interactive Events and
                 Weather Service</p>
             <p><span id="datetext">Date: </span></p>
         </div>
+    </div>
     </div>
     <div class="info">
         <div class="row">
@@ -198,7 +201,8 @@
                 map: map
             });
             // labels="";
-            //   console.log("marker location = "+marker.position);
+            console.log("marker location = "+marker.position);
+            // console.log("marker label = "+marker.label);
         }
 
         // Invoke Events API in getEventsList function, passing clickPos which is the position captured from user click event.
@@ -243,8 +247,11 @@
 
                     console.log("latlong = " + latlong);
                     console.log("clickPos = " + clickPos);
+
+                    var latlongArr = latlong.toString().split(",");
+                    console.log("latlongArr = " + latlongArr[0] + " and "+ latlongArr[1]);
                     $("#latlong").empty();
-                    $("#latlong").append("(" + latlong + ")");
+                    $("#latlong").append("(" + Math.round(latlongArr[0]*100)/100+", -"+Math.round(latlongArr[1]*100)/100+ ")");
                     console.log("clickPos down = " + latlong);
 
                     // if the response is null, print no events listed in the location.
@@ -290,10 +297,10 @@
                             $("tbody").append(tRow);
                             // get the location / region -- get only the location value from the last iteration
                             // in the for loop as it may repeat the same location every time.
-                            getLocation = "Location: " + response.events.event[i].olson_path + "@" + response.events.event[i].region_name;
+                            getLocation = " <br> Location: " + response.events.event[i].olson_path + "@" + response.events.event[i].region_name;
 
                         }
-                        $("#location").empty();
+                       // $("#location").empty();
                         $("#location").append(getLocation);
 
                     }
